@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DOTSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Clientes">
+    <Key>
+      <PropertyRef Name="ClienteID" />
+    </Key>
+    <Property Name="ClienteID" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Compania" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Calle" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+    <Property Name="CodigoPostal" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Ciudad" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+    <Property Name="Estado" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+    <Property Name="Pais" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+    <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Ordenes" Relationship="Self.FK_Ordenes_Clientes" FromRole="Clientes" ToRole="Ordenes" />
+  </EntityType>
+  <EntityType Name="Items">
+    <Key>
+      <PropertyRef Name="ItemID" />
+    </Key>
+    <Property Name="ItemID" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="SKU" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="OrdenItems" Relationship="Self.FK_OrdenItems_Items" FromRole="Items" ToRole="OrdenItems" />
+  </EntityType>
+  <EntityType Name="Ordenes">
+    <Key>
+      <PropertyRef Name="OrdenID" />
+    </Key>
+    <Property Name="OrdenID" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="TipoTarjetaCredito" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="MetodoEnvio" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <Property Name="Subtotal" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Impuesto" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="CostoEnvio" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Descuento" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Total" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="ClienteID" Type="Int32" />
+    <Property Name="FechaOrden" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Clientes" Relationship="Self.FK_Ordenes_Clientes" FromRole="Ordenes" ToRole="Clientes" />
+    <NavigationProperty Name="OrdenItems" Relationship="Self.FK_OrdenItems_Ordenes" FromRole="Ordenes" ToRole="OrdenItems" />
+  </EntityType>
+  <EntityType Name="OrdenItems">
+    <Key>
+      <PropertyRef Name="OrdenItemID" />
+    </Key>
+    <Property Name="OrdenItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Cantidad" Type="Int32" />
+    <Property Name="Costo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Impuesto" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Total" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Descuento" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="OrdenID" Type="Int32" />
+    <Property Name="ItemID" Type="Int32" />
+    <NavigationProperty Name="Items" Relationship="Self.FK_OrdenItems_Items" FromRole="OrdenItems" ToRole="Items" />
+    <NavigationProperty Name="Ordenes" Relationship="Self.FK_OrdenItems_Ordenes" FromRole="OrdenItems" ToRole="Ordenes" />
+  </EntityType>
+  <Association Name="FK_Ordenes_Clientes">
+    <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clientes">
+        <PropertyRef Name="ClienteID" />
+      </Principal>
+      <Dependent Role="Ordenes">
+        <PropertyRef Name="ClienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrdenItems_Items">
+    <End Role="Items" Type="Self.Items" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="OrdenItems" Type="Self.OrdenItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="ItemID" />
+      </Principal>
+      <Dependent Role="OrdenItems">
+        <PropertyRef Name="ItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrdenItems_Ordenes">
+    <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="OrdenItems" Type="Self.OrdenItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ordenes">
+        <PropertyRef Name="OrdenID" />
+      </Principal>
+      <Dependent Role="OrdenItems">
+        <PropertyRef Name="OrdenID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DOTSEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Clientes" EntityType="Self.Clientes" />
+    <EntitySet Name="Items" EntityType="Self.Items" />
+    <EntitySet Name="Ordenes" EntityType="Self.Ordenes" />
+    <EntitySet Name="OrdenItems" EntityType="Self.OrdenItems" />
+    <AssociationSet Name="FK_Ordenes_Clientes" Association="Self.FK_Ordenes_Clientes">
+      <End Role="Clientes" EntitySet="Clientes" />
+      <End Role="Ordenes" EntitySet="Ordenes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrdenItems_Items" Association="Self.FK_OrdenItems_Items">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="OrdenItems" EntitySet="OrdenItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrdenItems_Ordenes" Association="Self.FK_OrdenItems_Ordenes">
+      <End Role="Ordenes" EntitySet="Ordenes" />
+      <End Role="OrdenItems" EntitySet="OrdenItems" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DOTSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Clientes">
+    <Key>
+      <PropertyRef Name="ClienteID" />
+    </Key>
+    <Property Name="ClienteID" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="40" Nullable="false" />
+    <Property Name="Compania" Type="nvarchar" MaxLength="40" Nullable="false" />
+    <Property Name="Calle" Type="nvarchar" MaxLength="60" />
+    <Property Name="CodigoPostal" Type="nvarchar" MaxLength="50" />
+    <Property Name="Ciudad" Type="nvarchar" MaxLength="50" />
+    <Property Name="Estado" Type="nvarchar" MaxLength="50" />
+    <Property Name="Pais" Type="nvarchar" MaxLength="50" />
+    <Property Name="Telefono" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Items">
+    <Key>
+      <PropertyRef Name="ItemID" />
+    </Key>
+    <Property Name="ItemID" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="SKU" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ordenes">
+    <Key>
+      <PropertyRef Name="OrdenID" />
+    </Key>
+    <Property Name="OrdenID" Type="int" Nullable="false" />
+    <Property Name="Status" Type="varchar" MaxLength="50" />
+    <Property Name="TipoTarjetaCredito" Type="varchar" MaxLength="50" />
+    <Property Name="MetodoEnvio" Type="varchar" MaxLength="100" />
+    <Property Name="Subtotal" Type="varchar" MaxLength="50" />
+    <Property Name="Impuesto" Type="varchar" MaxLength="50" />
+    <Property Name="CostoEnvio" Type="varchar" MaxLength="50" />
+    <Property Name="Descuento" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Total" Type="varchar" MaxLength="50" />
+    <Property Name="ClienteID" Type="int" />
+    <Property Name="FechaOrden" Type="datetime" />
+    <Property Name="MetodoPago" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="OrdenItems">
+    <Key>
+      <PropertyRef Name="OrdenItemID" />
+    </Key>
+    <Property Name="OrdenItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Cantidad" Type="int" />
+    <Property Name="Costo" Type="nvarchar" MaxLength="10" />
+    <Property Name="Impuesto" Type="nvarchar" MaxLength="50" />
+    <Property Name="Total" Type="nvarchar" MaxLength="50" />
+    <Property Name="Descuento" Type="nvarchar" MaxLength="50" />
+    <Property Name="OrdenID" Type="int" />
+    <Property Name="ItemID" Type="int" />
+    <Property Name="Especificacion" Type="ntext" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DOTS.dbo.Usuarios' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="UsuarioID" />
+    </Key>
+    <Property Name="UsuarioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <Association Name="FK_Ordenes_Clientes">
+    <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clientes">
+        <PropertyRef Name="ClienteID" />
+      </Principal>
+      <Dependent Role="Ordenes">
+        <PropertyRef Name="ClienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrdenItems_Items">
+    <End Role="Items" Type="Self.Items" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="OrdenItems" Type="Self.OrdenItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="ItemID" />
+      </Principal>
+      <Dependent Role="OrdenItems">
+        <PropertyRef Name="ItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrdenItems_Ordenes">
+    <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="OrdenItems" Type="Self.OrdenItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ordenes">
+        <PropertyRef Name="OrdenID" />
+      </Principal>
+      <Dependent Role="OrdenItems">
+        <PropertyRef Name="OrdenID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DOTSModelStoreContainer">
+    <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ordenes" EntityType="Self.Ordenes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrdenItems" EntityType="Self.OrdenItems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuarios" EntityType="Self.Usuarios" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Usuarios].[UsuarioID] AS [UsuarioID], 
+    [Usuarios].[Nombre] AS [Nombre], 
+    [Usuarios].[Password] AS [Password]
+    FROM [dbo].[Usuarios] AS [Usuarios]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Ordenes_Clientes" Association="Self.FK_Ordenes_Clientes">
+      <End Role="Clientes" EntitySet="Clientes" />
+      <End Role="Ordenes" EntitySet="Ordenes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrdenItems_Items" Association="Self.FK_OrdenItems_Items">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="OrdenItems" EntitySet="OrdenItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrdenItems_Ordenes" Association="Self.FK_OrdenItems_Ordenes">
+      <End Role="Ordenes" EntitySet="Ordenes" />
+      <End Role="OrdenItems" EntitySet="OrdenItems" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

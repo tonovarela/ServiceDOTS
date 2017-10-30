@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestService", "TestService\TestService.csproj", "{9ABF9FB9-0729-4094-BA4B-17A0878C4AAB}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MonitorDOTS", "InstallDOTS\InstallDOTS.vdproj", "{83D2C1F4-2854-4120-8845-40A88A3E26C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contador", "Contador\Contador.csproj", "{616713B8-4D76-4883-9E56-718D1C23F69B}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ServicioDOTS", "ServicioDOTS\ServicioDOTS.vdproj", "{4B3CF4CB-72D9-4910-9289-C2A2B8E95AA6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9ABF9FB9-0729-4094-BA4B-17A0878C4AAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ABF9FB9-0729-4094-BA4B-17A0878C4AAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ABF9FB9-0729-4094-BA4B-17A0878C4AAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ABF9FB9-0729-4094-BA4B-17A0878C4AAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83D2C1F4-2854-4120-8845-40A88A3E26C8}.Debug|Any CPU.ActiveCfg = Debug
+		{83D2C1F4-2854-4120-8845-40A88A3E26C8}.Release|Any CPU.ActiveCfg = Release
+		{616713B8-4D76-4883-9E56-718D1C23F69B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{616713B8-4D76-4883-9E56-718D1C23F69B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{616713B8-4D76-4883-9E56-718D1C23F69B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{616713B8-4D76-4883-9E56-718D1C23F69B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B3CF4CB-72D9-4910-9289-C2A2B8E95AA6}.Debug|Any CPU.ActiveCfg = Debug
+		{4B3CF4CB-72D9-4910-9289-C2A2B8E95AA6}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

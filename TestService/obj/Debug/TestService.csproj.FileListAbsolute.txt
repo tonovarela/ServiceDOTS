@@ -1,0 +1,8 @@
+c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\TestService\bin\Debug\TestService.exe.config
+c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\TestService\bin\Debug\TestService.exe
+c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\TestService\bin\Debug\TestService.pdb
+c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\TestService\obj\Debug\TestService.ProjectInstaller.resources
+c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\TestService\obj\Debug\TestService.csproj.GenerateResource.Cache
+c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\TestService\obj\Debug\TestService.exe
+c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\TestService\obj\Debug\TestService.pdb
+c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\TestService\obj\Debug\TestService.ServiceDOTS.resources

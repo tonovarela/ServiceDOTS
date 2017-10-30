@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DOTSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Clientes">
+    <Key>
+      <PropertyRef Name="ClienteID" />
+    </Key>
+    <Property Name="ClienteID" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="nchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nchar" MaxLength="40" Nullable="false" />
+    <Property Name="Compania" Type="nchar" MaxLength="40" Nullable="false" />
+    <Property Name="Calle" Type="nchar" MaxLength="60" />
+    <Property Name="CodigoPostal" Type="nchar" MaxLength="10" />
+    <Property Name="Ciudad" Type="nchar" MaxLength="30" />
+    <Property Name="Estado" Type="nchar" MaxLength="30" />
+    <Property Name="Pais" Type="nchar" MaxLength="40" />
+    <Property Name="Telefono" Type="nchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Items">
+    <Key>
+      <PropertyRef Name="ItemID" />
+    </Key>
+    <Property Name="ItemID" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="nchar" MaxLength="40" Nullable="false" />
+    <Property Name="SKU" Type="nchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ordenes">
+    <Key>
+      <PropertyRef Name="OrdenID" />
+    </Key>
+    <Property Name="OrdenID" Type="int" Nullable="false" />
+    <Property Name="Status" Type="nchar" MaxLength="10" />
+    <Property Name="TipoTarjetaCredito" Type="nchar" MaxLength="20" />
+    <Property Name="MetodoEnvio" Type="nchar" MaxLength="100" />
+    <Property Name="Subtotal" Type="nchar" MaxLength="20" />
+    <Property Name="Impuesto" Type="nchar" MaxLength="10" />
+    <Property Name="CostoEnvio" Type="nchar" MaxLength="10" />
+    <Property Name="Descuento" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Total" Type="nchar" MaxLength="10" />
+    <Property Name="ClienteID" Type="int" />
+    <Property Name="FechaOrden" Type="datetime" />
+  </EntityType>
+  <EntityType Name="OrdenItems">
+    <Key>
+      <PropertyRef Name="OrdenItemID" />
+    </Key>
+    <Property Name="OrdenItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Cantidad" Type="int" />
+    <Property Name="Costo" Type="nchar" MaxLength="10" />
+    <Property Name="Impuesto" Type="nchar" MaxLength="10" />
+    <Property Name="Total" Type="nchar" MaxLength="10" />
+    <Property Name="Descuento" Type="nchar" MaxLength="10" />
+    <Property Name="OrdenID" Type="int" />
+    <Property Name="ItemID" Type="int" />
+  </EntityType>
+  <Association Name="FK_Ordenes_Clientes">
+    <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clientes">
+        <PropertyRef Name="ClienteID" />
+      </Principal>
+      <Dependent Role="Ordenes">
+        <PropertyRef Name="ClienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrdenItems_Items">
+    <End Role="Items" Type="Self.Items" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="OrdenItems" Type="Self.OrdenItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="ItemID" />
+      </Principal>
+      <Dependent Role="OrdenItems">
+        <PropertyRef Name="ItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrdenItems_Ordenes">
+    <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="OrdenItems" Type="Self.OrdenItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ordenes">
+        <PropertyRef Name="OrdenID" />
+      </Principal>
+      <Dependent Role="OrdenItems">
+        <PropertyRef Name="OrdenID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DOTSModelStoreContainer">
+    <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ordenes" EntityType="Self.Ordenes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrdenItems" EntityType="Self.OrdenItems" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Ordenes_Clientes" Association="Self.FK_Ordenes_Clientes">
+      <End Role="Clientes" EntitySet="Clientes" />
+      <End Role="Ordenes" EntitySet="Ordenes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrdenItems_Items" Association="Self.FK_OrdenItems_Items">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="OrdenItems" EntitySet="OrdenItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrdenItems_Ordenes" Association="Self.FK_OrdenItems_Ordenes">
+      <End Role="Ordenes" EntitySet="Ordenes" />
+      <End Role="OrdenItems" EntitySet="OrdenItems" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
