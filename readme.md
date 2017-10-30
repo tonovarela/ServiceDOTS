@@ -1,1 +1,1 @@
-<h1>Servicio de Windows para el Sistema DOTS modificado</h1>
+<h1>Servicio de Windows para el Sistema DOTS </h1>
