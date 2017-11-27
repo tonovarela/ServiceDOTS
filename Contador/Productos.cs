@@ -12,19 +12,14 @@ namespace Contador
     using System;
     using System.Collections.Generic;
     
-    public partial class OrdenItems
+    public partial class Productos
     {
-        public int OrdenItemID { get; set; }
-        public Nullable<int> Cantidad { get; set; }
-        public string Costo { get; set; }
-        public string Impuesto { get; set; }
-        public string Total { get; set; }
-        public string Descuento { get; set; }
-        public Nullable<int> OrdenID { get; set; }
-        public Nullable<int> ItemID { get; set; }
-        public string Especificacion { get; set; }
+        public int id_producto { get; set; }
+        public Nullable<int> cantidadordenada { get; set; }
+        public string sku { get; set; }
+        public int orden_numero { get; set; }
+        public string especificacion { get; set; }
     
-        public virtual Items Items { get; set; }
         public virtual Ordenes Ordenes { get; set; }
     }
 }

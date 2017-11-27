@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CrecePlusModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Clientes">
+    <Key>
+      <PropertyRef Name="id_cliente" />
+    </Key>
+    <Property Name="id_cliente" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="70" />
+    <Property Name="email" Type="varchar" MaxLength="30" />
+    <Property Name="compania" Type="nvarchar" MaxLength="60" />
+    <Property Name="calle" Type="varchar" MaxLength="100" />
+    <Property Name="codigopostal" Type="varchar" MaxLength="10" />
+    <Property Name="ciudad" Type="varchar" MaxLength="20" />
+    <Property Name="estado" Type="varchar" MaxLength="30" />
+    <Property Name="pais" Type="varchar" MaxLength="20" />
+    <Property Name="telefono" Type="varchar" MaxLength="40" />
+  </EntityType>
+  <EntityType Name="Items">
+    <Key>
+      <PropertyRef Name="id_item" />
+    </Key>
+    <Property Name="id_item" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="40" />
+    <Property Name="descripcion" Type="text" />
+    <Property Name="sku" Type="char" MaxLength="11" Nullable="false" />
+    <Property Name="id_tipopapel" Type="int" />
+    <Property Name="id_categoria" Type="int" />
+    <Property Name="id_medida" Type="int" />
+    <Property Name="activo" Type="bit" />
+  </EntityType>
+  <EntityType Name="Ordenes">
+    <Key>
+      <PropertyRef Name="orden_numero" />
+    </Key>
+    <Property Name="orden_numero" Type="int" Nullable="false" />
+    <Property Name="fechaorden" Type="datetime" />
+    <Property Name="id_cliente" Type="int" />
+    <Property Name="metodo_envio" Type="varchar" MaxLength="100" />
+    <Property Name="metodo_pago" Type="varchar" MaxLength="50" />
+    <Property Name="tipo_tarjeta_credito" Type="varchar" MaxLength="40" />
+    <Property Name="costo_envio" Type="varchar" MaxLength="20" />
+    <Property Name="subtotal" Type="varchar" MaxLength="20" />
+    <Property Name="impuesto" Type="varchar" MaxLength="20" />
+    <Property Name="total" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Productos">
+    <Key>
+      <PropertyRef Name="id_producto" />
+    </Key>
+    <Property Name="id_producto" Type="int" Nullable="false" />
+    <Property Name="cantidadordenada" Type="int" />
+    <Property Name="sku" Type="char" MaxLength="11" Nullable="false" />
+    <Property Name="orden_numero" Type="int" Nullable="false" />
+    <Property Name="especificacion" Type="text" />
+  </EntityType>
+  <Association Name="FK_Ordenes_Clientes">
+    <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+    <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clientes">
+        <PropertyRef Name="id_cliente" />
+      </Principal>
+      <Dependent Role="Ordenes">
+        <PropertyRef Name="id_cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_Productos_Items1' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK_Productos_Items1" />-->
+  <Association Name="FK_Productos_Ordenes">
+    <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="1" />
+    <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ordenes">
+        <PropertyRef Name="orden_numero" />
+      </Principal>
+      <Dependent Role="Productos">
+        <PropertyRef Name="orden_numero" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CrecePlusModelStoreContainer">
+    <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="db_accessadmin" store:Type="Tables" />
+    <EntitySet Name="Items" EntityType="Self.Items" Schema="db_accessadmin" store:Type="Tables" />
+    <EntitySet Name="Ordenes" EntityType="Self.Ordenes" Schema="db_accessadmin" store:Type="Tables" />
+    <EntitySet Name="Productos" EntityType="Self.Productos" Schema="db_accessadmin" store:Type="Tables" />
+    <AssociationSet Name="FK_Ordenes_Clientes" Association="Self.FK_Ordenes_Clientes">
+      <End Role="Clientes" EntitySet="Clientes" />
+      <End Role="Ordenes" EntitySet="Ordenes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Productos_Ordenes" Association="Self.FK_Productos_Ordenes">
+      <End Role="Ordenes" EntitySet="Ordenes" />
+      <End Role="Productos" EntitySet="Productos" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

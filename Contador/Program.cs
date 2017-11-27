@@ -11,7 +11,7 @@ namespace Contador
 {
     class Program
     {
-        static Timer timer;
+        
 
 
 
@@ -26,28 +26,6 @@ namespace Contador
             lector.LeerArchivos();
             Console.Read();
 
-            //ClienteDAO clientedao = new ClienteDAO();
-            //Cliente cliente = clientedao.getClienteID(1);
-
-            //Console.WriteLine(cliente);
-
-            //OrdenDAO ordendao = new OrdenDAO();
-            //ordendao.insertarOrden(new Orden()
-            //{
-            //    OrdenID = 800,                
-            //    CostoEnvio = "$55",
-            //    Descuento = "60",
-            //    FechaOrden = DateTime.Now,
-            //    Impuesto = "$23",
-            //    MetodoEnvio = "Express",
-            //    MetodoPago = "Credito",
-            //    Status = "Processing",
-            //    Subtotal = "500",
-            //    TipoTarjetaCredito = "MasterCard",
-            //    Total = "800"
-
-            //},1);
-            //// Console.WriteLine(orden);
 
         }
 

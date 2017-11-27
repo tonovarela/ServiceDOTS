@@ -8,7 +8,8 @@ namespace Contador.Models
 {
     public class Item
     {
-        public int ItemID { get; set; }
+        public int Id_Item { get; set; }
+        public String Nombre { get; set; }
         public String Descripcion { get; set; }
         public String SKU { get; set; }
 

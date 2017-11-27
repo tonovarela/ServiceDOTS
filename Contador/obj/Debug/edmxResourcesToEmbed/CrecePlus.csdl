@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CrecePlusModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Clientes">
+    <Key>
+      <PropertyRef Name="id_cliente" />
+    </Key>
+    <Property Name="id_cliente" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="compania" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="calle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="codigopostal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="ciudad" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="estado" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="pais" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="telefono" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Ordenes" Relationship="Self.FK_Ordenes_Clientes" FromRole="Clientes" ToRole="Ordenes" />
+  </EntityType>
+  <EntityType Name="Items">
+    <Key>
+      <PropertyRef Name="id_item" />
+    </Key>
+    <Property Name="id_item" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="sku" Type="String" MaxLength="11" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="id_tipopapel" Type="Int32" />
+    <Property Name="id_categoria" Type="Int32" />
+    <Property Name="id_medida" Type="Int32" />
+    <Property Name="activo" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Ordenes">
+    <Key>
+      <PropertyRef Name="orden_numero" />
+    </Key>
+    <Property Name="orden_numero" Type="Int32" Nullable="false" />
+    <Property Name="fechaorden" Type="DateTime" Precision="3" />
+    <Property Name="id_cliente" Type="Int32" />
+    <Property Name="metodo_envio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="metodo_pago" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="tipo_tarjeta_credito" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="costo_envio" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="subtotal" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="impuesto" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="total" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Clientes" Relationship="Self.FK_Ordenes_Clientes" FromRole="Ordenes" ToRole="Clientes" />
+    <NavigationProperty Name="Productos" Relationship="Self.FK_Productos_Ordenes" FromRole="Ordenes" ToRole="Productos" />
+  </EntityType>
+  <EntityType Name="Productos">
+    <Key>
+      <PropertyRef Name="id_producto" />
+    </Key>
+    <Property Name="id_producto" Type="Int32" Nullable="false" />
+    <Property Name="cantidadordenada" Type="Int32" />
+    <Property Name="sku" Type="String" MaxLength="11" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="orden_numero" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Ordenes" Relationship="Self.FK_Productos_Ordenes" FromRole="Productos" ToRole="Ordenes" />
+    <Property Name="especificacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_Ordenes_Clientes">
+    <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+    <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clientes">
+        <PropertyRef Name="id_cliente" />
+      </Principal>
+      <Dependent Role="Ordenes">
+        <PropertyRef Name="id_cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Productos_Ordenes">
+    <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="1" />
+    <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ordenes">
+        <PropertyRef Name="orden_numero" />
+      </Principal>
+      <Dependent Role="Productos">
+        <PropertyRef Name="orden_numero" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CrecePlusEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Clientes" EntityType="Self.Clientes" />
+    <EntitySet Name="Items" EntityType="Self.Items" />
+    <EntitySet Name="Ordenes" EntityType="Self.Ordenes" />
+    <EntitySet Name="Productos" EntityType="Self.Productos" />
+    <AssociationSet Name="FK_Ordenes_Clientes" Association="Self.FK_Ordenes_Clientes">
+      <End Role="Clientes" EntitySet="Clientes" />
+      <End Role="Ordenes" EntitySet="Ordenes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Productos_Ordenes" Association="Self.FK_Productos_Ordenes">
+      <End Role="Ordenes" EntitySet="Ordenes" />
+      <End Role="Productos" EntitySet="Productos" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -7,56 +7,58 @@ using System.Threading.Tasks;
 
 namespace Contador.DataLayer
 {
-    public class ClienteDAO :DAO
-    {      
+    public class ClienteDAO : DAO
+    {
         public void InsertarCliente(Cliente cliente)
-        {                                                   
-               this.context.Clientes.Add(new Clientes
-                {
-                    ClienteID = cliente.ClienteID,
-                    Nombre = cliente.Nombre,
-                    Calle = cliente.Calle,
-                    CodigoPostal = cliente.CodigoPostal,
-                    Compania = cliente.Compania,
-                    Email = cliente.Email,
-                    Pais = cliente.Pais,
-                    Estado = cliente.Estado,
-                    Telefono = cliente.Telefono,
-                    Ciudad=cliente.Ciudad
-                    
-                });
-                try
-                {
-                    context.SaveChanges();
-                }
-                catch (Exception e)
-                {
+        {
+            this.context.Clientes.Add(new Clientes
+            {
+                id_cliente = cliente.Id_Cliente,
+               
+                calle = cliente.Calle,
+                ciudad = cliente.Ciudad,
+                codigopostal = cliente.CodigoPostal,
+                compania = cliente.Compania,
+                email = cliente.Email,
+                estado = cliente.Estado,
+                nombre = cliente.Nombre,
+                pais = cliente.Pais,
+                telefono = cliente.Telefono
 
-                }
-            
+            });
+            try
+            {
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+
+            }
+
 
         }
 
-        public Cliente getClienteID(int ClienteID)
+        public Cliente getClienteID(int id_cliente)
         {
-            Cliente cliente = null;            
-                var data = context.Clientes.First(x => x.ClienteID == ClienteID);
-                if (data == null)
+            Cliente cliente = null;
+            var data = context.Clientes.First(x => x.id_cliente == id_cliente);
+            if (data == null)
+            {
+                cliente = new Cliente
                 {
-                    cliente = new Cliente
-                    {
-                        ClienteID = data.ClienteID,
-                        Calle = data.Calle,
-                        CodigoPostal = data.CodigoPostal,
-                        Compania = data.Compania,
-                        Email = data.Email,
-                        Estado = data.Estado,
-                        Nombre = data.Nombre,
-                        Pais = data.Pais,
-                        Telefono = data.Telefono,
-                        Ciudad=data.Ciudad
-                    };
-                }            
+                    Id_Cliente = data.id_cliente,
+                    Calle = data.calle,
+                    Ciudad = data.ciudad,
+                    CodigoPostal = data.codigopostal,
+                    Compania = data.compania,
+                    Email = data.email,
+                    Estado = data.estado,
+                    Nombre = data.nombre,
+                    Pais = data.pais,
+                    Telefono = data.telefono
+
+                };
+            }
             return cliente;
         }
 

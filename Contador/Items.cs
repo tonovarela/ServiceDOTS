@@ -14,17 +14,13 @@ namespace Contador
     
     public partial class Items
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Items()
-        {
-            this.OrdenItems = new HashSet<OrdenItems>();
-        }
-    
-        public int ItemID { get; set; }
-        public string Descripcion { get; set; }
-        public string SKU { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrdenItems> OrdenItems { get; set; }
+        public int id_item { get; set; }
+        public string nombre { get; set; }
+        public string descripcion { get; set; }
+        public string sku { get; set; }
+        public Nullable<int> id_tipopapel { get; set; }
+        public Nullable<int> id_categoria { get; set; }
+        public Nullable<int> id_medida { get; set; }
+        public Nullable<bool> activo { get; set; }
     }
 }

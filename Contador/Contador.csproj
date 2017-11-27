@@ -59,29 +59,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clientes.cs">
-      <DependentUpon>DOTS.tt</DependentUpon>
+      <DependentUpon>Creceplus.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Creceplus.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Creceplus.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Creceplus.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Creceplus.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Creceplus.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Creceplus.edmx</DependentUpon>
     </Compile>
     <Compile Include="DataLayer\ClienteDAO.cs" />
     <Compile Include="DataLayer\DAO.cs" />
-    <Compile Include="DataLayer\ItemDAO.cs" />
+    <Compile Include="DataLayer\ProductoDAO.cs" />
     <Compile Include="DataLayer\OrdenDAO.cs" />
-    <Compile Include="DOTS.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DOTS.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DOTS.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DOTS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DOTS.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DOTS.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Items.cs">
-      <DependentUpon>DOTS.tt</DependentUpon>
+      <DependentUpon>Creceplus.tt</DependentUpon>
     </Compile>
     <Compile Include="LectorCSV.cs" />
     <Compile Include="LectorXML.cs" />
@@ -89,27 +89,24 @@
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Orden.cs" />
     <Compile Include="Ordenes.cs">
-      <DependentUpon>DOTS.tt</DependentUpon>
+      <DependentUpon>Creceplus.tt</DependentUpon>
     </Compile>
-    <Compile Include="OrdenItems.cs">
-      <DependentUpon>DOTS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Usuarios.cs">
-      <DependentUpon>DOTS.tt</DependentUpon>
+    <Compile Include="Productos.cs">
+      <DependentUpon>Creceplus.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\Registro.cs" />
-    <Compile Include="Models\RegistroItem.cs" />
+    <Compile Include="Models\Producto.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EntityDeploy Include="DOTS.edmx">
+    <EntityDeploy Include="Creceplus.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DOTS.Designer.cs</LastGenOutput>
+      <LastGenOutput>Creceplus.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="DOTS.edmx.diagram">
-      <DependentUpon>DOTS.edmx</DependentUpon>
+    <None Include="Creceplus.edmx.diagram">
+      <DependentUpon>Creceplus.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -117,15 +114,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DOTS.Context.tt">
+    <Content Include="Creceplus.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DOTS.edmx</DependentUpon>
-      <LastGenOutput>DOTS.Context.cs</LastGenOutput>
+      <DependentUpon>Creceplus.edmx</DependentUpon>
+      <LastGenOutput>Creceplus.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DOTS.tt">
+    <Content Include="Creceplus.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DOTS.edmx</DependentUpon>
-      <LastGenOutput>DOTS.cs</LastGenOutput>
+      <DependentUpon>Creceplus.edmx</DependentUpon>
+      <LastGenOutput>Creceplus.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

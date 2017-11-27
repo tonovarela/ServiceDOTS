@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CrecePlusModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Clientes">
+          <Key>
+            <PropertyRef Name="id_cliente" />
+          </Key>
+          <Property Name="id_cliente" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="70" />
+          <Property Name="email" Type="varchar" MaxLength="30" />
+          <Property Name="compania" Type="nvarchar" MaxLength="60" />
+          <Property Name="calle" Type="varchar" MaxLength="100" />
+          <Property Name="codigopostal" Type="varchar" MaxLength="10" />
+          <Property Name="ciudad" Type="varchar" MaxLength="20" />
+          <Property Name="estado" Type="varchar" MaxLength="30" />
+          <Property Name="pais" Type="varchar" MaxLength="20" />
+          <Property Name="telefono" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="Items">
+          <Key>
+            <PropertyRef Name="id_item" />
+          </Key>
+          <Property Name="id_item" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="40" />
+          <Property Name="descripcion" Type="text" />
+          <Property Name="sku" Type="char" MaxLength="11" Nullable="false" />
+          <Property Name="id_tipopapel" Type="int" />
+          <Property Name="id_categoria" Type="int" />
+          <Property Name="id_medida" Type="int" />
+          <Property Name="activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="Ordenes">
+          <Key>
+            <PropertyRef Name="orden_numero" />
+          </Key>
+          <Property Name="orden_numero" Type="int" Nullable="false" />
+          <Property Name="fechaorden" Type="datetime" />
+          <Property Name="id_cliente" Type="int" />
+          <Property Name="metodo_envio" Type="varchar" MaxLength="100" />
+          <Property Name="metodo_pago" Type="varchar" MaxLength="50" />
+          <Property Name="tipo_tarjeta_credito" Type="varchar" MaxLength="40" />
+          <Property Name="costo_envio" Type="varchar" MaxLength="20" />
+          <Property Name="subtotal" Type="varchar" MaxLength="20" />
+          <Property Name="impuesto" Type="varchar" MaxLength="20" />
+          <Property Name="total" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="id_producto" />
+          </Key>
+          <Property Name="id_producto" Type="int" Nullable="false" />
+          <Property Name="cantidadordenada" Type="int" />
+          <Property Name="sku" Type="char" MaxLength="11" Nullable="false" />
+          <Property Name="orden_numero" Type="int" Nullable="false" />
+          <Property Name="especificacion" Type="text" />
+        </EntityType>
+        <Association Name="FK_Ordenes_Clientes">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+          <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="id_cliente" />
+            </Principal>
+            <Dependent Role="Ordenes">
+              <PropertyRef Name="id_cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_Productos_Items1' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK_Productos_Items1" />-->
+        <Association Name="FK_Productos_Ordenes">
+          <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="1" />
+          <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordenes">
+              <PropertyRef Name="orden_numero" />
+            </Principal>
+            <Dependent Role="Productos">
+              <PropertyRef Name="orden_numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CrecePlusModelStoreContainer">
+          <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="db_accessadmin" store:Type="Tables" />
+          <EntitySet Name="Items" EntityType="Self.Items" Schema="db_accessadmin" store:Type="Tables" />
+          <EntitySet Name="Ordenes" EntityType="Self.Ordenes" Schema="db_accessadmin" store:Type="Tables" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" Schema="db_accessadmin" store:Type="Tables" />
+          <AssociationSet Name="FK_Ordenes_Clientes" Association="Self.FK_Ordenes_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Ordenes" EntitySet="Ordenes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productos_Ordenes" Association="Self.FK_Productos_Ordenes">
+            <End Role="Ordenes" EntitySet="Ordenes" />
+            <End Role="Productos" EntitySet="Productos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CrecePlusModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Clientes">
+          <Key>
+            <PropertyRef Name="id_cliente" />
+          </Key>
+          <Property Name="id_cliente" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="compania" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="calle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="codigopostal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ciudad" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="pais" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ordenes" Relationship="Self.FK_Ordenes_Clientes" FromRole="Clientes" ToRole="Ordenes" />
+        </EntityType>
+        <EntityType Name="Items">
+          <Key>
+            <PropertyRef Name="id_item" />
+          </Key>
+          <Property Name="id_item" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sku" Type="String" MaxLength="11" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="id_tipopapel" Type="Int32" />
+          <Property Name="id_categoria" Type="Int32" />
+          <Property Name="id_medida" Type="Int32" />
+          <Property Name="activo" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Ordenes">
+          <Key>
+            <PropertyRef Name="orden_numero" />
+          </Key>
+          <Property Name="orden_numero" Type="Int32" Nullable="false" />
+          <Property Name="fechaorden" Type="DateTime" Precision="3" />
+          <Property Name="id_cliente" Type="Int32" />
+          <Property Name="metodo_envio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="metodo_pago" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tipo_tarjeta_credito" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="costo_envio" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="subtotal" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="impuesto" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="total" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Clientes" Relationship="Self.FK_Ordenes_Clientes" FromRole="Ordenes" ToRole="Clientes" />
+          <NavigationProperty Name="Productos" Relationship="Self.FK_Productos_Ordenes" FromRole="Ordenes" ToRole="Productos" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="id_producto" />
+          </Key>
+          <Property Name="id_producto" Type="Int32" Nullable="false" />
+          <Property Name="cantidadordenada" Type="Int32" />
+          <Property Name="sku" Type="String" MaxLength="11" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="orden_numero" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ordenes" Relationship="Self.FK_Productos_Ordenes" FromRole="Productos" ToRole="Ordenes" />
+          <Property Name="especificacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Ordenes_Clientes">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+          <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="id_cliente" />
+            </Principal>
+            <Dependent Role="Ordenes">
+              <PropertyRef Name="id_cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Productos_Ordenes">
+          <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="1" />
+          <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordenes">
+              <PropertyRef Name="orden_numero" />
+            </Principal>
+            <Dependent Role="Productos">
+              <PropertyRef Name="orden_numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CrecePlusEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clientes" EntityType="Self.Clientes" />
+          <EntitySet Name="Items" EntityType="Self.Items" />
+          <EntitySet Name="Ordenes" EntityType="Self.Ordenes" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" />
+          <AssociationSet Name="FK_Ordenes_Clientes" Association="Self.FK_Ordenes_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Ordenes" EntitySet="Ordenes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productos_Ordenes" Association="Self.FK_Productos_Ordenes">
+            <End Role="Ordenes" EntitySet="Ordenes" />
+            <End Role="Productos" EntitySet="Productos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CrecePlusModelStoreContainer" CdmEntityContainer="CrecePlusEntities">
+          <EntitySetMapping Name="Clientes">
+            <EntityTypeMapping TypeName="CrecePlusModel.Clientes">
+              <MappingFragment StoreEntitySet="Clientes">
+                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="compania" ColumnName="compania" />
+                <ScalarProperty Name="calle" ColumnName="calle" />
+                <ScalarProperty Name="codigopostal" ColumnName="codigopostal" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="pais" ColumnName="pais" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="CrecePlusModel.Items">
+              <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="id_item" ColumnName="id_item" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="sku" ColumnName="sku" />
+                <ScalarProperty Name="id_tipopapel" ColumnName="id_tipopapel" />
+                <ScalarProperty Name="id_categoria" ColumnName="id_categoria" />
+                <ScalarProperty Name="id_medida" ColumnName="id_medida" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ordenes">
+            <EntityTypeMapping TypeName="CrecePlusModel.Ordenes">
+              <MappingFragment StoreEntitySet="Ordenes">
+                <ScalarProperty Name="orden_numero" ColumnName="orden_numero" />
+                <ScalarProperty Name="fechaorden" ColumnName="fechaorden" />
+                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+                <ScalarProperty Name="metodo_envio" ColumnName="metodo_envio" />
+                <ScalarProperty Name="metodo_pago" ColumnName="metodo_pago" />
+                <ScalarProperty Name="tipo_tarjeta_credito" ColumnName="tipo_tarjeta_credito" />
+                <ScalarProperty Name="costo_envio" ColumnName="costo_envio" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+                <ScalarProperty Name="impuesto" ColumnName="impuesto" />
+                <ScalarProperty Name="total" ColumnName="total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productos">
+            <EntityTypeMapping TypeName="CrecePlusModel.Productos">
+              <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="especificacion" ColumnName="especificacion" />
+                <ScalarProperty Name="id_producto" ColumnName="id_producto" />
+                <ScalarProperty Name="cantidadordenada" ColumnName="cantidadordenada" />
+                <ScalarProperty Name="sku" ColumnName="sku" />
+                <ScalarProperty Name="orden_numero" ColumnName="orden_numero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

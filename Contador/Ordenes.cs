@@ -17,24 +17,22 @@ namespace Contador
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Ordenes()
         {
-            this.OrdenItems = new HashSet<OrdenItems>();
+            this.Productos = new HashSet<Productos>();
         }
     
-        public int OrdenID { get; set; }
-        public string Status { get; set; }
-        public string TipoTarjetaCredito { get; set; }
-        public string MetodoEnvio { get; set; }
-        public string Subtotal { get; set; }
-        public string Impuesto { get; set; }
-        public string CostoEnvio { get; set; }
-        public string Descuento { get; set; }
-        public string Total { get; set; }
-        public Nullable<int> ClienteID { get; set; }
-        public Nullable<System.DateTime> FechaOrden { get; set; }
-        public string MetodoPago { get; set; }
+        public int orden_numero { get; set; }
+        public Nullable<System.DateTime> fechaorden { get; set; }
+        public Nullable<int> id_cliente { get; set; }
+        public string metodo_envio { get; set; }
+        public string metodo_pago { get; set; }
+        public string tipo_tarjeta_credito { get; set; }
+        public string costo_envio { get; set; }
+        public string subtotal { get; set; }
+        public string impuesto { get; set; }
+        public string total { get; set; }
     
         public virtual Clientes Clientes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrdenItems> OrdenItems { get; set; }
+        public virtual ICollection<Productos> Productos { get; set; }
     }
 }

@@ -13,10 +13,10 @@ namespace Contador
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DOTSEntities : DbContext
+    public partial class CrecePlusEntities : DbContext
     {
-        public DOTSEntities()
-            : base("name=DOTSEntities")
+        public CrecePlusEntities()
+            : base("name=CrecePlusEntities")
         {
         }
     
@@ -28,7 +28,6 @@ namespace Contador
         public virtual DbSet<Clientes> Clientes { get; set; }
         public virtual DbSet<Items> Items { get; set; }
         public virtual DbSet<Ordenes> Ordenes { get; set; }
-        public virtual DbSet<OrdenItems> OrdenItems { get; set; }
-        public virtual DbSet<Usuarios> Usuarios { get; set; }
+        public virtual DbSet<Productos> Productos { get; set; }
     }
 }

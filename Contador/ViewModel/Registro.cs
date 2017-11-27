@@ -11,6 +11,6 @@ namespace Contador.ViewModel
     {
         public Orden orden { get; set; }
         public Cliente cliente { get; set; }
-        public List<RegistroItem> listaItem { get; set; }
+        public List<Producto> productos { get; set; }
     }
 }

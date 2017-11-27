@@ -8,12 +8,12 @@ namespace Contador.DataLayer
 {
     public class DAO
     {
-        public DOTSEntities context;
+        public CrecePlusEntities context;
 
 
         public DAO()
         {
-            context = new DOTSEntities();
+            context = new CrecePlusEntities();
         }
 
     }

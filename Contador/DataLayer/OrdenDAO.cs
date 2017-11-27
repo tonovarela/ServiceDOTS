@@ -1,6 +1,7 @@
 ﻿using Contador.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,29 +10,25 @@ namespace Contador.DataLayer
 {
     public class OrdenDAO
     {
-        public Orden getOrden(int ordenID)
+        public Orden getOrden(int orden_numero)
         {
             Orden orden = null;
-            using (DOTSEntities context = new DOTSEntities())
+            using (CrecePlusEntities context = new CrecePlusEntities())
             {
-                var data = context.Ordenes.FirstOrDefault(x => x.OrdenID == ordenID);
+                var data = context.Ordenes.FirstOrDefault(x => x.orden_numero == orden_numero);
                 if (data != null)
                 {
                     orden = new Orden
-                    {
-                        OrdenID = data.OrdenID,
-                        Descuento = data.Descuento,
-                        CostoEnvio = data.CostoEnvio,
-                        FechaOrden = (DateTime)data.FechaOrden,
-                        Subtotal = data.Subtotal,
-                        Impuesto = data.Impuesto,
-                        MetodoEnvio = data.MetodoEnvio,
-                        MetodoPago = "spei",
-                        Status = data.Status,
-                        TipoTarjetaCredito = data.TipoTarjetaCredito,
-                        Total = data.Total
-                        
-
+                    {                        
+                        FechaOrden = (DateTime)data.fechaorden,
+                        CostoEnvio = data.costo_envio,
+                        Impuesto = data.impuesto,
+                        MetodoEnvio = data.metodo_envio,
+                        MetodoPago = data.metodo_pago,
+                        OrdenNumero = data.orden_numero,
+                        Subtotal = data.subtotal,
+                        TipoTarjetaCredito = data.tipo_tarjeta_credito,
+                        Total = data.total
                     };
                 }
             }
@@ -40,31 +37,33 @@ namespace Contador.DataLayer
         }
         public void insertarOrden(Orden orden, int clienteID)
         {
-            using (DOTSEntities context = new DOTSEntities())
+            using (CrecePlusEntities context = new CrecePlusEntities())
             {
+                
+
+
                 context.Ordenes.Add(new Ordenes()
                 {
-                    ClienteID = clienteID,
-                    OrdenID = orden.OrdenID,
-                    Descuento = orden.Descuento,
-                    CostoEnvio = orden.CostoEnvio,
-                    Impuesto = orden.Impuesto,
-                    MetodoEnvio = orden.MetodoEnvio,
-                    Status = orden.Status,
-                    Subtotal = orden.Subtotal,
-                    FechaOrden = orden.FechaOrden,
-                    MetodoPago=orden.MetodoPago,
-                    TipoTarjetaCredito = orden.TipoTarjetaCredito,
-                    Total = orden.Total
+                    id_cliente = clienteID,
+                    orden_numero = orden.OrdenNumero,
+                    costo_envio = orden.CostoEnvio,
+                    fechaorden = orden.FechaOrden,                    
+                    impuesto = orden.Impuesto,
+                    metodo_envio = orden.MetodoEnvio,
+                    tipo_tarjeta_credito = orden.TipoTarjetaCredito,
+                    total = orden.Total,
+                    subtotal = orden.Subtotal,                    
+                    metodo_pago = orden.MetodoPago
+                       
                 }
                     );
                 try
                 {
                     context.SaveChanges();
                 }
-                catch (Exception e)
+                catch (DbEntityValidationException  e)
                 {
-
+                    Console.WriteLine(context.GetValidationErrors()); 
                 }
 
 
