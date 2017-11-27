@@ -3,7 +3,6 @@ c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\Contador\b
 c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\Contador\bin\Debug\Contador.pdb
 c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\Contador\obj\Debug\Contador.exe
 c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\Contador\obj\Debug\Contador.pdb
-c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\Contador\obj\Debug\Contador.csprojResolveAssemblyReference.cache
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\Contador\bin\Debug\CsvHelper.dll
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\Contador\bin\Debug\CsvHelper.pdb
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\Contador\bin\Debug\CsvHelper.xml
