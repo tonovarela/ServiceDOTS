@@ -5,25 +5,25 @@ using CsvHelper;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 namespace Contador
 {
-    public class LectorCSV
+    public class LectorCSV :Lector
     {
-        private string ruta = @"C:\Desarrollo\CSV";
-      
-        public void LeerArchivos()
+        public LectorCSV(string ruta,string extension):base(ruta,extension)
         {
-            List<Registro> registros = new List<Registro>();
+           
+        }
+
+        public void ProcesarArchivos()
+        {
+            List<Registro> registros = new List<Registro>();            
             //Para cada Archivo csv            
             foreach (FileInfo file in this.listarArchivos())
             {
                 //Si el Archivo esta abierto no procesarlo
                 if (!this.sePuedeLeerArchivo(file.FullName))
-                {
-                    Console.WriteLine("El archivo no se puede Leer");
+                {                   
                     continue;
                 }
                 #region Inicializan los objetos
@@ -32,49 +32,64 @@ namespace Contador
                 string ordenid = "XXXXXXXXXX"; //Id que se supone no existe
                 List<Producto> listaProductos = null;
                 Producto producto = null;
-                CsvReader csv = new CsvReader(new StreamReader(file.FullName));
+                StreamReader reader = new StreamReader(file.FullName);                
+                bool archivoProcesado = true;
                 #endregion
-
                 #region Llenado de la Orden  el Cliente y los Productos
                 //Leemos la cabecera y se omite
+                
+                CsvReader csv = new CsvReader(reader);
                 csv.Read();
                 while (csv.Read())
                 {
+                    archivoProcesado = true;
                     if (ordenid != csv.GetField(0))
                     {
                         if (orden != null)
-                            registros.Add(new Registro() { cliente = cliente, orden = orden,  productos = listaProductos });
+                            registros.Add(new Registro() { cliente = cliente, orden = orden, productos = listaProductos });
                         //Se asigna la siguiente orden de producción
                         ordenid = csv.GetField(0);
                         cliente = this.getCliente(csv);
                         orden = this.getOrden(csv);
                         listaProductos = new List<Producto>();
+
+                        var existeOrden = (new OrdenDAO()).getOrden(orden.OrdenNumero);
+                        if (existeOrden != null)
+                        {
+                            reader.Close();
+                            archivoProcesado = false;
+                            this.EscribirError(file.FullName, String.Format("La orden {0} ya fue capturada  {1:yyyy-MM-dd_HH:mm:ss}", orden.OrdenNumero, DateTime.Now));
+                            break;
+                        }
                     }
-                   
                     producto = this.getProducto(csv);
-
                     var existeSKU = (new ProductoDAO()).existeSKU(producto.SKU);
-
                     if (!existeSKU)
                     {
-                        csv.Dispose();
-                        Console.WriteLine("SKU no se existe"+ producto.SKU);
-                        String archivoSP = file.FullName.Replace(".csv", String.Format("[{0:yyyy-MM-dd_HHmmss}].sin",DateTime.Now));                        
-                        //File.Move(file.FullName, archivoSP);
-                        return;
-                    }else
+                        reader.Close();                        
+                        archivoProcesado = false;
+                        this.EscribirError(file.FullName, String.Format("El SKU {0} de la orden {1} no existe  {2:yyyy-MM-dd_HH:mm:ss}", producto.SKU, orden.OrdenNumero, DateTime.Now));
+                        break;
+                    }
+                    else
                     {
                         listaProductos.Add(producto);
                     }
                     
-                }
-                
-                
 
-                registros.Add(new Registro() { cliente = cliente, orden = orden, productos = listaProductos });
+                }
+
+                if (archivoProcesado)
+                {
+                    registros.Add(new Registro() { cliente = cliente, orden = orden, productos = listaProductos });
+                    reader.Close();
+                    File.Delete(file.FullName);
+                }
                 #endregion
+
+
             }
-                #region Interaccion con la Capa de Datos
+            #region Interaccion con la Capa de Datos
 
             ClienteDAO clienteDao = new ClienteDAO();
             OrdenDAO ordenDao = new OrdenDAO();
@@ -82,18 +97,10 @@ namespace Contador
 
             foreach (Registro registro in registros)
             {
-                //Si la orden existe no procesarla
-                if (ordenDao.getOrden(registro.orden.OrdenNumero) == null)
-                {
-                      clienteDao.InsertarCliente(registro.cliente);
-                      ordenDao.insertarOrden(registro.orden, registro.cliente.Id_Cliente);
-                      productoDao.insertar(registro.productos,registro.orden.OrdenNumero);
-                //    //itemDao.insertarItem(registro.productos, registro.orden.OrdenNumero);
-                }
-            else
-                {
-                    Console.WriteLine("Esta orden ya fue ingresada a la base de datos");
-                }
+                clienteDao.InsertarCliente(registro.cliente);
+                ordenDao.insertarOrden(registro.orden, registro.cliente.Id_Cliente);
+                productoDao.insertar(registro.productos, registro.orden.OrdenNumero);
+                
                 this.ListarObjetosGenerados(registro);
             }
             #endregion
@@ -106,14 +113,16 @@ namespace Contador
         {
             Producto producto = new Producto()
             {
-                Id_producto = Int32.Parse(csv.GetField(42)),
+                Id_producto = Int32.Parse(csv.GetField(41)),
                 Cantidad_Ordenada = Int32.Parse(csv.GetField(49)),
-                SKU = csv.GetField(45)                                             
+                SKU = csv.GetField(45),
+                Especificacion = csv.GetField(46)
+                 
             };
-            
+
             return producto;
         }
-        
+
 
         private Cliente getCliente(CsvReader csv)
         {
@@ -126,10 +135,10 @@ namespace Contador
                 Calle = csv.GetField(22),
                 CodigoPostal = csv.GetField(23),
                 Ciudad = csv.GetField(24),
-                Estado = csv.GetField(26),                
+                Estado = csv.GetField(26),
                 Pais = csv.GetField(28),
                 Telefono = csv.GetField(29),
-                
+
 
             };
             return cliente;
@@ -140,14 +149,14 @@ namespace Contador
 
             Orden orden = new Orden()
             {
-                OrdenNumero = Int32.Parse(csv.GetField(0)),                
-                FechaOrden = DateTime.Parse(csv.GetField(1)),                
+                OrdenNumero = Int32.Parse(csv.GetField(0)),
+                FechaOrden = DateTime.Parse(csv.GetField(1)),
                 MetodoPago = csv.GetField(4),
-                TipoTarjetaCredito = csv.GetField(5),                 
+                TipoTarjetaCredito = csv.GetField(5),
                 MetodoEnvio = csv.GetField(6),
                 Subtotal = csv.GetField(7),
                 Impuesto = csv.GetField(8),
-                CostoEnvio = csv.GetField(9),                
+                CostoEnvio = csv.GetField(9),
                 Total = csv.GetField(12),
             };
 
@@ -165,26 +174,9 @@ namespace Contador
             foreach (Producto producto in registro.productos)
                 Console.WriteLine(producto);
         }
-        private FileInfo[] listarArchivos()
-        {
-            DirectoryInfo directorio = new DirectoryInfo(this.ruta);
-            FileInfo[] archivos = directorio.GetFiles("*.csv");
-            return archivos;
-        }
-        private bool sePuedeLeerArchivo(string path)
-        {
-            try
-            {
-                File.Open(path, FileMode.Open, FileAccess.Read).Dispose();
-                return true;
-            }
-            catch (IOException)
-            {
-                return false;
-            }
-        }
+        
+      
 
-       
 
     }
 }

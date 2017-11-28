@@ -10,3 +10,4 @@ C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\Contador\b
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\Contador\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\Contador\bin\Debug\EntityFramework.xml
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\Contador\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\Contador\obj\Debug\Contador.csprojResolveAssemblyReference.cache

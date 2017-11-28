@@ -83,6 +83,7 @@
     <Compile Include="Items.cs">
       <DependentUpon>Creceplus.tt</DependentUpon>
     </Compile>
+    <Compile Include="Lector.cs" />
     <Compile Include="LectorCSV.cs" />
     <Compile Include="LectorXML.cs" />
     <Compile Include="Models\Cliente.cs" />

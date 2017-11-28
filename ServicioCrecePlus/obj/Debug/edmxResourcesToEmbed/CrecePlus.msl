@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CrecePlusModelStoreContainer" CdmEntityContainer="CrecePlusEntities">
+    <EntitySetMapping Name="Clientes">
+      <EntityTypeMapping TypeName="CrecePlusModel.Clientes">
+        <MappingFragment StoreEntitySet="Clientes">
+          <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="compania" ColumnName="compania" />
+          <ScalarProperty Name="calle" ColumnName="calle" />
+          <ScalarProperty Name="codigopostal" ColumnName="codigopostal" />
+          <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="pais" ColumnName="pais" />
+          <ScalarProperty Name="telefono" ColumnName="telefono" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Items">
+      <EntityTypeMapping TypeName="CrecePlusModel.Items">
+        <MappingFragment StoreEntitySet="Items">
+          <ScalarProperty Name="id_item" ColumnName="id_item" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="sku" ColumnName="sku" />
+          <ScalarProperty Name="id_tipopapel" ColumnName="id_tipopapel" />
+          <ScalarProperty Name="id_categoria" ColumnName="id_categoria" />
+          <ScalarProperty Name="id_medida" ColumnName="id_medida" />
+          <ScalarProperty Name="activo" ColumnName="activo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ordenes">
+      <EntityTypeMapping TypeName="CrecePlusModel.Ordenes">
+        <MappingFragment StoreEntitySet="Ordenes">
+          <ScalarProperty Name="orden_numero" ColumnName="orden_numero" />
+          <ScalarProperty Name="fechaorden" ColumnName="fechaorden" />
+          <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+          <ScalarProperty Name="metodo_envio" ColumnName="metodo_envio" />
+          <ScalarProperty Name="metodo_pago" ColumnName="metodo_pago" />
+          <ScalarProperty Name="tipo_tarjeta_credito" ColumnName="tipo_tarjeta_credito" />
+          <ScalarProperty Name="costo_envio" ColumnName="costo_envio" />
+          <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+          <ScalarProperty Name="impuesto" ColumnName="impuesto" />
+          <ScalarProperty Name="total" ColumnName="total" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Productos">
+      <EntityTypeMapping TypeName="CrecePlusModel.Productos">
+        <MappingFragment StoreEntitySet="Productos">
+          <ScalarProperty Name="id_producto" ColumnName="id_producto" />
+          <ScalarProperty Name="cantidadordenada" ColumnName="cantidadordenada" />
+          <ScalarProperty Name="sku" ColumnName="sku" />
+          <ScalarProperty Name="orden_numero" ColumnName="orden_numero" />
+          <ScalarProperty Name="especificacion" ColumnName="especificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

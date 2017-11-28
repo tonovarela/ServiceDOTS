@@ -6,3 +6,4 @@ c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\TestServic
 c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\TestService\obj\Debug\TestService.exe
 c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\TestService\obj\Debug\TestService.pdb
 c:\users\tonovarela\documents\visual studio 2015\Projects\TestService\TestService\obj\Debug\TestService.ServiceDOTS.resources
+C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\TestService\obj\Debug\TestService.csprojResolveAssemblyReference.cache

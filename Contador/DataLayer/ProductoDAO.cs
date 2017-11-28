@@ -13,9 +13,8 @@ namespace Contador.DataLayer
 
         public bool existeSKU(string SKU)
         {
-            bool existe = true;
-            var data = context.Items.Where(x => x.sku == SKU);
-            if (data == null)
+            bool existe = true;            
+            if (!context.Items.Any(x => x.sku == SKU))
             {
                 existe = false;
             }
@@ -55,7 +54,9 @@ namespace Contador.DataLayer
                         sku = producto.SKU,
                         cantidadordenada = producto.Cantidad_Ordenada,
                         id_producto = producto.Id_producto,
-                        orden_numero = ordenID
+                        orden_numero = ordenID,
+                        especificacion=producto.Especificacion
+                         
 
                     }
                     );
@@ -65,7 +66,7 @@ namespace Contador.DataLayer
                 }
                 catch (Exception e)
                 {
-
+                    Console.WriteLine("No se pudo guardar el producto "+producto.ToString());
                 }
 
             }

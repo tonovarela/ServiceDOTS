@@ -33,10 +33,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=6.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.6.0.0\lib\net45\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +61,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clientes.cs">
+      <DependentUpon>CrecePlus.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CrecePlus.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrecePlus.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CrecePlus.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrecePlus.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CrecePlus.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrecePlus.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayer\ClienteDAO.cs" />
+    <Compile Include="DataLayer\DAO.cs" />
+    <Compile Include="DataLayer\OrdenDAO.cs" />
+    <Compile Include="DataLayer\ProductoDAO.cs" />
+    <Compile Include="Items.cs">
+      <DependentUpon>CrecePlus.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LectorCSV.cs" />
+    <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\Orden.cs" />
+    <Compile Include="Models\Producto.cs" />
+    <Compile Include="Ordenes.cs">
+      <DependentUpon>CrecePlus.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Productos.cs">
+      <DependentUpon>CrecePlus.tt</DependentUpon>
+    </Compile>
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -60,9 +111,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Registro.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EntityDeploy Include="CrecePlus.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CrecePlus.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="CrecePlus.edmx.diagram">
+      <DependentUpon>CrecePlus.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
@@ -73,10 +133,19 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Contador\Contador.csproj">
-      <Project>{616713b8-4d76-4883-9e56-718d1c23f69b}</Project>
-      <Name>Contador</Name>
-    </ProjectReference>
+    <Content Include="CrecePlus.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CrecePlus.Context.cs</LastGenOutput>
+      <DependentUpon>CrecePlus.edmx</DependentUpon>
+    </Content>
+    <Content Include="CrecePlus.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CrecePlus.edmx</DependentUpon>
+      <LastGenOutput>CrecePlus.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

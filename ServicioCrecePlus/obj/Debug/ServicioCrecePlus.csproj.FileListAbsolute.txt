@@ -1,12 +1,9 @@
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\bin\Debug\ServicioCrecePlus.exe.config
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\bin\Debug\ServicioCrecePlus.exe
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\bin\Debug\ServicioCrecePlus.pdb
-C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\bin\Debug\Contador.exe
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\bin\Debug\EntityFramework.dll
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\bin\Debug\CsvHelper.dll
-C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\bin\Debug\Contador.pdb
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\bin\Debug\EntityFramework.xml
-C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\bin\Debug\CsvHelper.pdb
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\bin\Debug\CsvHelper.xml
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\obj\Debug\ServicioCrecePlus.csprojResolveAssemblyReference.cache
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\obj\Debug\ServicioCrecePlus.ProjectInstaller.resources
@@ -14,3 +11,5 @@ C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCr
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\obj\Debug\ServicioCrecePlus.csproj.GenerateResource.Cache
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\obj\Debug\ServicioCrecePlus.exe
 C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\obj\Debug\ServicioCrecePlus.pdb
+C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\tonovarela\documents\visual studio 2015\Projects\TestService\ServicioCrecePlus\bin\Debug\EntityFramework.SqlServer.xml

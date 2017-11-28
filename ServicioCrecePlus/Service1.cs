@@ -35,7 +35,7 @@ namespace ServicioCrecePlus
             //Se ejecutara cada 5 segundos
             timer.Interval = 5000;
             timer.Enabled = true;
-            eventLog1.WriteEntry("Iniciando el servicio");
+            eventLog1.WriteEntry("Iniciando el servicio de CrecePLus");
 
         }
 
@@ -43,6 +43,7 @@ namespace ServicioCrecePlus
         {
             LectorCSV lector = new LectorCSV();
             lector.LeerArchivos();
+            eventLog1.WriteEntry("Se ha ejecutado el servicio de CRECE");
             //LectorXML lectorIMP = new LectorXML(@"C:\Desarrollo\IMP", @"C:\Desarrollo\Salida", eventLog1);
             //lectorIMP.LeerArchivos();
 
@@ -52,7 +53,7 @@ namespace ServicioCrecePlus
         protected override void OnStop()
         {
             timer.Enabled = false;
-            eventLog1.WriteEntry("Se detuvo el servicio de DOTS", EventLogEntryType.Warning, 500);
+            eventLog1.WriteEntry("Se detuvo el servicio de CRECEplus", EventLogEntryType.Warning, 500);
         }
     }
 }
