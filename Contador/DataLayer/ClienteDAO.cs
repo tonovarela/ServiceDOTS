@@ -37,33 +37,7 @@ namespace Contador.DataLayer
 
 
         }
-
-        public Cliente getClienteID(int id_cliente)
-        {
-            Cliente cliente = null;
-            var data = context.Clientes.First(x => x.id_cliente == id_cliente);
-            if (data == null)
-            {
-                cliente = new Cliente
-                {
-                    Id_Cliente = data.id_cliente,
-                    Calle = data.calle,
-                    Ciudad = data.ciudad,
-                    CodigoPostal = data.codigopostal,
-                    Compania = data.compania,
-                    Email = data.email,
-                    Estado = data.estado,
-                    Nombre = data.nombre,
-                    Pais = data.pais,
-                    Telefono = data.telefono
-
-                };
-            }
-            return cliente;
-        }
-
-
-
+     
     }
 
 

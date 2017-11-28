@@ -87,7 +87,6 @@
     <Compile Include="LectorCSV.cs" />
     <Compile Include="LectorXML.cs" />
     <Compile Include="Models\Cliente.cs" />
-    <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Orden.cs" />
     <Compile Include="Ordenes.cs">
       <DependentUpon>Creceplus.tt</DependentUpon>

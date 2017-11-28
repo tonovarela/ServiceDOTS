@@ -11,10 +11,7 @@ namespace Contador
 {
     class Program
     {
-        
-
-
-
+       
         static void Main(string[] args)
         {
 

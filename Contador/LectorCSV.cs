@@ -8,22 +8,22 @@ using System.IO;
 using System.Text;
 namespace Contador
 {
-    public class LectorCSV :Lector
+    public class LectorCSV : Lector
     {
-        public LectorCSV(string ruta,string extension):base(ruta,extension)
+        public LectorCSV(string ruta, string extension) : base(ruta, extension)
         {
-           
+
         }
 
         public void ProcesarArchivos()
         {
-            List<Registro> registros = new List<Registro>();            
+            List<Registro> registros = new List<Registro>();
             //Para cada Archivo csv            
             foreach (FileInfo file in this.listarArchivos())
             {
                 //Si el Archivo esta abierto no procesarlo
                 if (!this.sePuedeLeerArchivo(file.FullName))
-                {                   
+                {
                     continue;
                 }
                 #region Inicializan los objetos
@@ -32,12 +32,12 @@ namespace Contador
                 string ordenid = "XXXXXXXXXX"; //Id que se supone no existe
                 List<Producto> listaProductos = null;
                 Producto producto = null;
-                StreamReader reader = new StreamReader(file.FullName);                
+                StreamReader reader = new StreamReader(file.FullName);
                 bool archivoProcesado = true;
                 #endregion
                 #region Llenado de la Orden  el Cliente y los Productos
                 //Leemos la cabecera y se omite
-                
+
                 CsvReader csv = new CsvReader(reader);
                 csv.Read();
                 while (csv.Read())
@@ -52,9 +52,8 @@ namespace Contador
                         cliente = this.getCliente(csv);
                         orden = this.getOrden(csv);
                         listaProductos = new List<Producto>();
-
-                        var existeOrden = (new OrdenDAO()).getOrden(orden.OrdenNumero);
-                        if (existeOrden != null)
+                        bool existeOrden = (new OrdenDAO()).existeOrden(orden.OrdenNumero);
+                        if (existeOrden)
                         {
                             reader.Close();
                             archivoProcesado = false;
@@ -66,7 +65,7 @@ namespace Contador
                     var existeSKU = (new ProductoDAO()).existeSKU(producto.SKU);
                     if (!existeSKU)
                     {
-                        reader.Close();                        
+                        reader.Close();
                         archivoProcesado = false;
                         this.EscribirError(file.FullName, String.Format("El SKU {0} de la orden {1} no existe  {2:yyyy-MM-dd_HH:mm:ss}", producto.SKU, orden.OrdenNumero, DateTime.Now));
                         break;
@@ -75,7 +74,7 @@ namespace Contador
                     {
                         listaProductos.Add(producto);
                     }
-                    
+
 
                 }
 
@@ -100,7 +99,7 @@ namespace Contador
                 clienteDao.InsertarCliente(registro.cliente);
                 ordenDao.insertarOrden(registro.orden, registro.cliente.Id_Cliente);
                 productoDao.insertar(registro.productos, registro.orden.OrdenNumero);
-                
+
                 this.ListarObjetosGenerados(registro);
             }
             #endregion
@@ -117,7 +116,7 @@ namespace Contador
                 Cantidad_Ordenada = Int32.Parse(csv.GetField(49)),
                 SKU = csv.GetField(45),
                 Especificacion = csv.GetField(46)
-                 
+
             };
 
             return producto;
@@ -174,8 +173,8 @@ namespace Contador
             foreach (Producto producto in registro.productos)
                 Console.WriteLine(producto);
         }
-        
-      
+
+
 
 
     }
