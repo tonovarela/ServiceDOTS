@@ -7,6 +7,11 @@ namespace Contador.DataLayer
 {
     public class ProductoDAO : DAO
     {
+
+        public bool existeID(int id_producto)
+        {
+            return context.Productos.Any(x=>x.id_producto==id_producto);
+        }
         public bool existeSKU(string SKU)
         {
             return context.Items.Any(x => x.sku == SKU);

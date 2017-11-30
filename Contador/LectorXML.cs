@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Contador.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,54 +12,73 @@ using System.Xml.Linq;
 
 namespace Contador
 {
-
-    public class LectorXML
+    public class LectorXML : Lector
     {
-
-        String directorioIMP = @"C:\Desarrollo\IMP";
-        String DirectorioSalida = @"C:\Desarrollo\Salida";
-        public void LeerArchivos()
+        public LectorXML(string ruta, string extension) : base(ruta, extension)
         {
-            String info;
-            foreach (FileInfo item in this.listarArchivosIMP())
-            {    
-                //Se lee la informacion del archivo          
-                info=this.LeerXML(item.FullName);
-                //Se envia a la carpeta de procesado
-                this.crearArchivo(info);                
-                 item.Delete();
-            }
+            this.ruta = ruta;
+            this.extension = extension;
         }
-        
-
-        
-        private FileInfo[] listarArchivosIMP()
+        public void ProcesarArchivos()
         {
-            DirectoryInfo directorio = new DirectoryInfo(this.directorioIMP);
-            FileInfo[] archivos = directorio.GetFiles("*.xml");
-            return archivos;
-        }
-        private String LeerXML(String path)
-        {
-            StringBuilder resultado = new StringBuilder();
-            foreach (XElement item in XElement.Load(path).Elements("Brand"))
+            foreach (FileInfo file in this.listarArchivos())
             {
-                resultado.AppendLine(item.Attribute("name").Value);
-                foreach (XElement item2 in item.Elements("product"))
-                    resultado.AppendLine(" " + item2.Attribute("name").Value);
+                Console.WriteLine(String.Format("[{0}]", file.FullName));
+                Console.WriteLine("-------------------------------------");
+                this.LeerXML(file.FullName);
             }
-            return resultado.ToString();
         }
 
-        private void crearArchivo(String info)
+        private void LeerXML(String path)
         {
-            string path = this.DirectorioSalida+"\\"+ String.Format("ArchivoProcesado_{0}_{1}_{2}_{3}_{4}.txt", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Minute, DateTime.Now.Millisecond);
-            File.AppendAllLines(path, new [] {info});
-            Thread.Sleep(1000);
+            XDocument xdoc = XDocument.Load(path);
+            //var productos = (from producto in xdoc.Descendants("PlacedObject")
+            //                 select new
+            //                 {
+            //                     Grupo = producto.Attribute("Group").Value,
+            //                 }).GroupBy(g => g.Grupo)
+            //                    .Select(s => s.First());
+
+
+
+            var pliego = (from p in xdoc.Descendants("Layout")
+                          select new
+                          {
+                              Id = p.Attribute("ID").Value,
+                              Grade = p.Attribute("Grade").Value,
+                              Copias = (Int32.Parse(p.Attribute("Copies").Value) - Int32.Parse(p.Attribute("WastageCopies").Value)),
+                              CortesGuillotina = p.Attribute("GuillotineCutCount").Value,
+                              UsodelPliego = p.Attribute("SheetUsage").Value
+                          }).First();
+
+            Console.WriteLine("----------------------Pliego------------------------");
+            Console.WriteLine(pliego);
+            Console.WriteLine("---------------------------- ------------------------");
+
+
+
+            var productos = (from producto in xdoc.Descendants("PlacedObject")
+                             select new
+                             {
+                                 ComponentName = producto.Attribute("ComponentName").Value,
+                                 Grupo = producto.Attribute("Group").Value == "" ? "SinSubpliego" : producto.Attribute("Group").Value,
+                                 CopiasRequeridas = producto.Attribute("RequiredCopies").Value,
+                                 CopiasProducidas = producto.Attribute("ProducedCopies").Value,
+                                 ProductosporPliego = producto.Descendants("Placement").Count()
+                             }).OrderBy(x => x.ProductosporPliego);
+            Console.WriteLine("----------------------------Productos ------------------------");
+            foreach (var producto in productos)
+                Console.WriteLine(producto);
+
+            Console.WriteLine("--------------------------------------------------------------");
+
+
         }
-        
+
+
+
     }
 
-    
+
 
 }

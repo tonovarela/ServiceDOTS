@@ -19,9 +19,18 @@ namespace Contador
             //timer.Elapsed += new ElapsedEventHandler(funcion);
             //timer.Interval = 5000;
             //timer.Enabled = true;
-            LectorCSV lector = new LectorCSV(@"C:\Desarrollo\CSV","csv");
+            //LectorCSV lector = new LectorCSV(@"C:\Desarrollo\CSV","csv");
+            //lector.ProcesarArchivos();
+
+
+
+            //LectorXML lector = new LectorXML(@"C:\Desarrollo\IMP","xml");
+            //lector.ProcesarArchivos();
+
+            LectorPQ lector = new LectorPQ(@"C:\Desarrollo\CSV", "csv");
             lector.ProcesarArchivos();
             Console.Read();
+
 
 
         }

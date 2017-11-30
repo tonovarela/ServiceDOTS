@@ -84,7 +84,7 @@
       <DependentUpon>Creceplus.tt</DependentUpon>
     </Compile>
     <Compile Include="Lector.cs" />
-    <Compile Include="LectorCSV.cs" />
+    <Compile Include="LectorPQ.cs" />
     <Compile Include="LectorXML.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Orden.cs" />
@@ -98,6 +98,7 @@
     <Compile Include="Models\Producto.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Renglon.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

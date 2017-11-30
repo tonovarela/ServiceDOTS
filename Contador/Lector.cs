@@ -40,10 +40,15 @@ namespace Contador
             }
         }
 
-        protected void EscribirError(string filePath, string detalle)
+        protected void quitarExtension(string filePath)
         {
-            //Quita la extension y coloca el mensaje de error al final del cuerpo del archivo
             String archivoSP = filePath.Replace("." + this.extension, "");
+            File.Move(filePath, archivoSP);
+        }
+
+        protected void EscribirErrores(string filePath, string detalle)
+        {
+                        
             using (var wr = new StreamWriter(filePath, true, Encoding.UTF8))
             {
 
@@ -57,7 +62,26 @@ namespace Contador
                 wr.WriteLine(sb.ToString());
 
             }
-            File.Move(filePath, archivoSP);
+            
+        }
+        protected void EscribirErrores(string filePath, List<string> mensajes)
+        {
+            using (var wr = new StreamWriter(filePath, true, Encoding.UTF8))
+            {
+
+                var sb = new StringBuilder();                           
+                sb = sb.Clear();
+                sb.AppendLine();
+                sb.AppendLine();
+                foreach (string mensaje in mensajes)
+                {                                        
+                    sb.Append(String.Format("Error [ {0} ]", mensaje));
+                    sb.AppendLine();                    
+                }
+                
+                wr.WriteLine(sb.ToString());
+
+            }
 
         }
     }
