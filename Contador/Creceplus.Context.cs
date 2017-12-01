@@ -29,5 +29,7 @@ namespace Contador
         public virtual DbSet<Items> Items { get; set; }
         public virtual DbSet<Ordenes> Ordenes { get; set; }
         public virtual DbSet<Productos> Productos { get; set; }
+        public virtual DbSet<Pliegos> Pliegos { get; set; }
+        public virtual DbSet<ProductosPliego> ProductosPliego { get; set; }
     }
 }

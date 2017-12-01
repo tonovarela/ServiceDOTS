@@ -12,15 +12,13 @@ namespace Contador
     using System;
     using System.Collections.Generic;
     
-    public partial class Productos
+    public partial class ProductosPliego
     {
         public int id_producto { get; set; }
-        public Nullable<int> cantidadordenada { get; set; }
-        public string sku { get; set; }
-        public int orden_numero { get; set; }
-        public string especificacion { get; set; }
+        public Nullable<int> copiasporpliego { get; set; }
+        public Nullable<int> id_pliego { get; set; }
     
-        public virtual Ordenes Ordenes { get; set; }
-        public virtual ProductosPliego ProductosPliego { get; set; }
+        public virtual Pliegos Pliegos { get; set; }
+        public virtual Productos Productos { get; set; }
     }
 }

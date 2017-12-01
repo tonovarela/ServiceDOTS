@@ -41,8 +41,8 @@ namespace ServicioCrecePlus
 
         void tarea(object sender, ElapsedEventArgs e)
         {
-            LectorCSV lector = new LectorCSV();
-            lector.LeerArchivos();
+            LectorPQ lector = new LectorPQ(@"C:\Desarrollo\CSV","csv");
+            lector.ProcesarArchivos();
             eventLog1.WriteEntry("Se ha ejecutado el servicio de CRECE");
             //LectorXML lectorIMP = new LectorXML(@"C:\Desarrollo\IMP", @"C:\Desarrollo\Salida", eventLog1);
             //lectorIMP.LeerArchivos();

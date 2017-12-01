@@ -56,9 +56,10 @@
     <Property Name="orden_numero" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Ordenes" Relationship="Self.FK_Productos_Ordenes" FromRole="Productos" ToRole="Ordenes" />
     <Property Name="especificacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ProductosPliego" Relationship="CrecePlusModel.FK_ProductosPliego_Productos" FromRole="Productos" ToRole="ProductosPliego" />
   </EntityType>
   <Association Name="FK_Ordenes_Clientes">
-    <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+    <End Role="Clientes" Type="CrecePlusModel.Clientes" Multiplicity="0..1" />
     <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Clientes">
@@ -82,7 +83,7 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="CrecePlusEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Clientes" EntityType="Self.Clientes" />
+    <EntitySet Name="Clientes" EntityType="CrecePlusModel.Clientes" />
     <EntitySet Name="Items" EntityType="Self.Items" />
     <EntitySet Name="Ordenes" EntityType="Self.Ordenes" />
     <EntitySet Name="Productos" EntityType="Self.Productos" />
@@ -94,5 +95,62 @@
       <End Role="Ordenes" EntitySet="Ordenes" />
       <End Role="Productos" EntitySet="Productos" />
     </AssociationSet>
+    <EntitySet Name="Pliegos" EntityType="CrecePlusModel.Pliegos" />
+    <EntitySet Name="ProductosPliego" EntityType="CrecePlusModel.ProductosPliego" />
+    <AssociationSet Name="FK_ProductosPliego_Pliegos" Association="CrecePlusModel.FK_ProductosPliego_Pliegos">
+      <End Role="Pliegos" EntitySet="Pliegos" />
+      <End Role="ProductosPliego" EntitySet="ProductosPliego" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductosPliego_Productos" Association="CrecePlusModel.FK_ProductosPliego_Productos">
+      <End Role="Productos" EntitySet="Productos" />
+      <End Role="ProductosPliego" EntitySet="ProductosPliego" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Pliegos">
+    <Key>
+      <PropertyRef Name="id_pliego" />
+    </Key>
+    <Property Name="id_pliego" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="copias" Type="Int32" />
+    <Property Name="cortesguillotina" Type="Int32" />
+    <Property Name="porcentajeuso" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ProductosPliego" Relationship="CrecePlusModel.FK_ProductosPliego_Pliegos" FromRole="Pliegos" ToRole="ProductosPliego" />
+  </EntityType>
+  <EntityType Name="ProductosPliego">
+    <Key>
+      <PropertyRef Name="id_producto" />
+    </Key>
+    <Property Name="id_producto" Type="Int32" Nullable="false" />
+    <Property Name="copiasrequeridas" Type="Int32" />
+    <Property Name="copiasporpliego" Type="Int32" />
+    <Property Name="id_pliego" Type="Int32" />
+    <NavigationProperty Name="Pliegos" Relationship="CrecePlusModel.FK_ProductosPliego_Pliegos" FromRole="ProductosPliego" ToRole="Pliegos" />
+    <NavigationProperty Name="Productos" Relationship="CrecePlusModel.FK_ProductosPliego_Productos" FromRole="ProductosPliego" ToRole="Productos" />
+  </EntityType>
+  <Association Name="FK_ProductosPliego_Pliegos">
+    <End Type="CrecePlusModel.Pliegos" Role="Pliegos" Multiplicity="0..1" />
+    <End Type="CrecePlusModel.ProductosPliego" Role="ProductosPliego" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pliegos">
+        <PropertyRef Name="id_pliego" />
+      </Principal>
+      <Dependent Role="ProductosPliego">
+        <PropertyRef Name="id_pliego" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductosPliego_Productos">
+    <End Type="CrecePlusModel.Productos" Role="Productos" Multiplicity="1" />
+    <End Type="CrecePlusModel.ProductosPliego" Role="ProductosPliego" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Productos">
+        <PropertyRef Name="id_producto" />
+      </Principal>
+      <Dependent Role="ProductosPliego">
+        <PropertyRef Name="id_producto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

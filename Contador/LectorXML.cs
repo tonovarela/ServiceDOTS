@@ -1,4 +1,5 @@
-﻿using Contador.Models;
+﻿using Contador.DataLayer;
+using Contador.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +15,10 @@ namespace Contador
 {
     public class LectorXML : Lector
     {
+
+
+        private Pliego _pliego = null;
+        List<ProductoPliego> _productospliego = null;
         public LectorXML(string ruta, string extension) : base(ruta, extension)
         {
             this.ruta = ruta;
@@ -25,56 +30,69 @@ namespace Contador
             {
                 Console.WriteLine(String.Format("[{0}]", file.FullName));
                 Console.WriteLine("-------------------------------------");
-                this.LeerXML(file.FullName);
+                this.LeerXML(file.FullName, file.Name);
             }
         }
 
-        private void LeerXML(String path)
+        private void LeerXML(String fullPathfile, string name)
         {
-            XDocument xdoc = XDocument.Load(path);
+            XDocument xdoc = XDocument.Load(fullPathfile);
             //var productos = (from producto in xdoc.Descendants("PlacedObject")
             //                 select new
             //                 {
             //                     Grupo = producto.Attribute("Group").Value,
             //                 }).GroupBy(g => g.Grupo)
             //                    .Select(s => s.First());
+            #region Lectura del Pliego
+            _pliego = xdoc.Descendants("Layout")
+                                            .Select(x=> new Pliego
+                                            {
+                                                Nombre = name,
+                                                Tipo = x.Attribute("Grade").Value,
+                                                Copias = (Int32.Parse(x.Attribute("Copies").Value) - Int32.Parse(x.Attribute("WastageCopies").Value)),
+                                                CortesGuillotina = Int32.Parse(x.Attribute("GuillotineCutCount").Value),
+                                                PorcentajeUso = x.Attribute("SheetUsage").Value
+                                            }).First();
+            #endregion        
+
+            #region Lectura de los productos del pliego
+            _productospliego = xdoc.Descendants("PlacedObject")
+                                       .Select(x => new ProductoPliego
+                                     {
+                                         Id_producto = Int32.Parse(x.Attribute("ProductID").Value),
+                                         Copiasporpliego = x.Descendants("Placement").Count(),                                         
+                                     }).ToList();
+            #endregion
+
+            this.ListarObjetos();
+            #region Interacion con la capa de Datos
+            //PliegoDAO dao = new PliegoDAO();
+
+            //if (dao.insertar(_pliego, _productospliego))
+            //{
+            //    Console.WriteLine("Se inserto");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("No se inserto");
+            //    this.quitarExtension(name);
+            //}
 
 
-
-            var pliego = (from p in xdoc.Descendants("Layout")
-                          select new
-                          {
-                              Id = p.Attribute("ID").Value,
-                              Grade = p.Attribute("Grade").Value,
-                              Copias = (Int32.Parse(p.Attribute("Copies").Value) - Int32.Parse(p.Attribute("WastageCopies").Value)),
-                              CortesGuillotina = p.Attribute("GuillotineCutCount").Value,
-                              UsodelPliego = p.Attribute("SheetUsage").Value
-                          }).First();
-
-            Console.WriteLine("----------------------Pliego------------------------");
-            Console.WriteLine(pliego);
-            Console.WriteLine("---------------------------- ------------------------");
-
-
-
-            var productos = (from producto in xdoc.Descendants("PlacedObject")
-                             select new
-                             {
-                                 ComponentName = producto.Attribute("ComponentName").Value,
-                                 Grupo = producto.Attribute("Group").Value == "" ? "SinSubpliego" : producto.Attribute("Group").Value,
-                                 CopiasRequeridas = producto.Attribute("RequiredCopies").Value,
-                                 CopiasProducidas = producto.Attribute("ProducedCopies").Value,
-                                 ProductosporPliego = producto.Descendants("Placement").Count()
-                             }).OrderBy(x => x.ProductosporPliego);
-            Console.WriteLine("----------------------------Productos ------------------------");
-            foreach (var producto in productos)
-                Console.WriteLine(producto);
-
-            Console.WriteLine("--------------------------------------------------------------");
-
+            #endregion
 
         }
 
+        private void ListarObjetos()
+        {
+            Console.WriteLine("----------------------Pliego------------------------");
+            Console.WriteLine(this._pliego);
+            Console.WriteLine("---------------------------- ------------------------");
+            Console.WriteLine("----------------------------Productos ------------------------");
+            foreach (var producto in this._productospliego)
+                Console.WriteLine(producto);
+            Console.WriteLine("--------------------------------------------------------------");
+        }
 
 
     }

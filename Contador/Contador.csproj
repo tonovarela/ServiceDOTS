@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="DataLayer\ClienteDAO.cs" />
     <Compile Include="DataLayer\DAO.cs" />
+    <Compile Include="DataLayer\PliegoDAO.cs" />
     <Compile Include="DataLayer\ProductoDAO.cs" />
     <Compile Include="DataLayer\OrdenDAO.cs" />
     <Compile Include="Items.cs">
@@ -88,10 +89,18 @@
     <Compile Include="LectorXML.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Orden.cs" />
+    <Compile Include="Models\Pliego.cs" />
+    <Compile Include="Models\ProductoPliego.cs" />
     <Compile Include="Ordenes.cs">
       <DependentUpon>Creceplus.tt</DependentUpon>
     </Compile>
+    <Compile Include="Pliegos.cs">
+      <DependentUpon>Creceplus.tt</DependentUpon>
+    </Compile>
     <Compile Include="Productos.cs">
+      <DependentUpon>Creceplus.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductosPliego.cs">
       <DependentUpon>Creceplus.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\Registro.cs" />

@@ -58,5 +58,27 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Pliegos">
+      <EntityTypeMapping TypeName="CrecePlusModel.Pliegos">
+        <MappingFragment StoreEntitySet="Pliegos">
+          <ScalarProperty Name="tipo" ColumnName="tipo" />
+          <ScalarProperty Name="porcentajeuso" ColumnName="porcentajeuso" />
+          <ScalarProperty Name="cortesguillotina" ColumnName="cortesguillotina" />
+          <ScalarProperty Name="copias" ColumnName="copias" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="id_pliego" ColumnName="id_pliego" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductosPliego">
+      <EntityTypeMapping TypeName="CrecePlusModel.ProductosPliego">
+        <MappingFragment StoreEntitySet="ProductosPliego">
+          <ScalarProperty Name="id_pliego" ColumnName="id_pliego" />
+          <ScalarProperty Name="copiasporpliego" ColumnName="copiasporpliego" />
+          <ScalarProperty Name="copiasrequeridas" ColumnName="copiasrequeridas" />
+          <ScalarProperty Name="id_producto" ColumnName="id_producto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -43,6 +43,17 @@
     <Property Name="impuesto" Type="varchar" MaxLength="20" />
     <Property Name="total" Type="varchar" MaxLength="20" />
   </EntityType>
+  <EntityType Name="Pliegos">
+    <Key>
+      <PropertyRef Name="id_pliego" />
+    </Key>
+    <Property Name="id_pliego" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" />
+    <Property Name="copias" Type="int" />
+    <Property Name="cortesguillotina" Type="int" />
+    <Property Name="porcentajeuso" Type="varchar" MaxLength="10" />
+    <Property Name="tipo" Type="varchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="Productos">
     <Key>
       <PropertyRef Name="id_producto" />
@@ -52,6 +63,15 @@
     <Property Name="sku" Type="char" MaxLength="11" Nullable="false" />
     <Property Name="orden_numero" Type="int" Nullable="false" />
     <Property Name="especificacion" Type="text" />
+  </EntityType>
+  <EntityType Name="ProductosPliego">
+    <Key>
+      <PropertyRef Name="id_producto" />
+    </Key>
+    <Property Name="id_producto" Type="int" Nullable="false" />
+    <Property Name="copiasrequeridas" Type="int" />
+    <Property Name="copiasporpliego" Type="int" />
+    <Property Name="id_pliego" Type="int" />
   </EntityType>
   <Association Name="FK_Ordenes_Clientes">
     <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
@@ -80,11 +100,37 @@ advertencia 6035: La relación 'FK_Productos_Items1' tiene columnas que no forma
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProductosPliego_Pliegos">
+    <End Role="Pliegos" Type="Self.Pliegos" Multiplicity="0..1" />
+    <End Role="ProductosPliego" Type="Self.ProductosPliego" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pliegos">
+        <PropertyRef Name="id_pliego" />
+      </Principal>
+      <Dependent Role="ProductosPliego">
+        <PropertyRef Name="id_pliego" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductosPliego_Productos">
+    <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+    <End Role="ProductosPliego" Type="Self.ProductosPliego" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Productos">
+        <PropertyRef Name="id_producto" />
+      </Principal>
+      <Dependent Role="ProductosPliego">
+        <PropertyRef Name="id_producto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="CrecePlusModelStoreContainer">
     <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="db_accessadmin" store:Type="Tables" />
     <EntitySet Name="Items" EntityType="Self.Items" Schema="db_accessadmin" store:Type="Tables" />
     <EntitySet Name="Ordenes" EntityType="Self.Ordenes" Schema="db_accessadmin" store:Type="Tables" />
+    <EntitySet Name="Pliegos" EntityType="Self.Pliegos" Schema="db_accessadmin" store:Type="Tables" />
     <EntitySet Name="Productos" EntityType="Self.Productos" Schema="db_accessadmin" store:Type="Tables" />
+    <EntitySet Name="ProductosPliego" EntityType="Self.ProductosPliego" Schema="db_accessadmin" store:Type="Tables" />
     <AssociationSet Name="FK_Ordenes_Clientes" Association="Self.FK_Ordenes_Clientes">
       <End Role="Clientes" EntitySet="Clientes" />
       <End Role="Ordenes" EntitySet="Ordenes" />
@@ -92,6 +138,14 @@ advertencia 6035: La relación 'FK_Productos_Items1' tiene columnas que no forma
     <AssociationSet Name="FK_Productos_Ordenes" Association="Self.FK_Productos_Ordenes">
       <End Role="Ordenes" EntitySet="Ordenes" />
       <End Role="Productos" EntitySet="Productos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductosPliego_Pliegos" Association="Self.FK_ProductosPliego_Pliegos">
+      <End Role="Pliegos" EntitySet="Pliegos" />
+      <End Role="ProductosPliego" EntitySet="ProductosPliego" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductosPliego_Productos" Association="Self.FK_ProductosPliego_Productos">
+      <End Role="Productos" EntitySet="Productos" />
+      <End Role="ProductosPliego" EntitySet="ProductosPliego" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

@@ -24,12 +24,15 @@ namespace Contador
 
 
 
-            //LectorXML lector = new LectorXML(@"C:\Desarrollo\IMP","xml");
-            //lector.ProcesarArchivos();
-
-            LectorPQ lector = new LectorPQ(@"C:\Desarrollo\CSV", "csv");
+            LectorXML lector = new LectorXML(@"C:\Desarrollo\IMP", "xml");
             lector.ProcesarArchivos();
+
+            //LectorPQ lector = new LectorPQ(@"C:\Desarrollo\CSV", "csv");
+            //lector.ProcesarArchivos();
             Console.Read();
+
+
+
 
 
 

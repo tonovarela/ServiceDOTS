@@ -13,7 +13,9 @@ namespace Contador.Models
         public int Cantidad_Ordenada { get; set; }
         public string SKU { get; set; }
 
-          
+        public string Especificacion { get; set; }
+
+
         public override string ToString()
         {
             string output = String.Empty;
@@ -21,6 +23,7 @@ namespace Contador.Models
             output += "\n                                  ID_producto : " + Id_producto; ;
             output += "\n                                  SKU : " + SKU; 
             output += "\n                                 Cantidad Ordenada : " +  Cantidad_Ordenada ;
+            output += "\n                                 Especificación : " + Especificacion;
             output += "\n                                 ---------------------------------";
 
             return output;

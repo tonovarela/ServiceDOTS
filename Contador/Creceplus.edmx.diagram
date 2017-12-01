@@ -8,10 +8,14 @@
         <EntityTypeShape EntityType="CrecePlusModel.Clientes" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CrecePlusModel.Items" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CrecePlusModel.Ordenes" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="CrecePlusModel.Productos" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CrecePlusModel.Productos" Width="1.5" PointX="5.125" PointY="1.125" IsExpanded="true" />
         <AssociationConnector Association="CrecePlusModel.FK_Ordenes_Clientes" ManuallyRouted="false" />
         <AssociationConnector Association="CrecePlusModel.FK_Productos_Ordenes" ManuallyRouted="false" />
-      </Diagram>
+        <EntityTypeShape EntityType="CrecePlusModel.Pliegos" Width="1.5" PointX="6.625" PointY="5.25" />
+        <EntityTypeShape EntityType="CrecePlusModel.ProductosPliego" Width="1.5" PointX="8.375" PointY="1.375" />
+        <AssociationConnector Association="CrecePlusModel.FK_ProductosPliego_Pliegos" />
+        <AssociationConnector Association="CrecePlusModel.FK_ProductosPliego_Productos" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

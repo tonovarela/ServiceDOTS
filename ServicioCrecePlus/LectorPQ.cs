@@ -20,13 +20,6 @@ namespace Contador
 
         public void ProcesarArchivos()
         {
-            DAO dao = new DAO();
-            if (!dao.CheckConnection())
-            {
-                Console.WriteLine("No hay acceso a la base de datos");
-                return;
-            }
-
             foreach (FileInfo file in this.listarArchivos())
             {
                 //Si el Archivo esta abierto no procesarlo
@@ -38,66 +31,63 @@ namespace Contador
                 #region Lectura de los renglones del archivo CSV
                 using (StreamReader reader = new StreamReader(file.FullName))
                 {
-                    CsvReader csv = new CsvReader(reader);                    
+                    CsvReader csv = new CsvReader(reader);
                     //Se leen las cabeceras
-                    csv.Read();
-
-                    while (csv.Read())
-                        renglones.Add(this.leerRenglon(csv));
-
-
+                    csv.Read();                    
+                    while (csv.Read())                    
+                            renglones.Add(this.leerRenglon(csv));
+                    
                 }
-
                 #endregion
 
                 List<String> mensajes = new List<String>();
                 List<Registro> registros = new List<Registro>();
 
-                #region Se llena la lista registros               
+                #region llenado de productos por orden                
                 var numeroOrdenes = renglones.Select(x => x.Orden.OrdenNumero).Distinct().ToList();
                 foreach (var numeroOrden in numeroOrdenes)
-                {
+                    {
                     Registro registro = new Registro();
 
-                    var data = renglones.Where(x => x.Orden.OrdenNumero == numeroOrden).First();
-                    registro.cliente = data.Cliente;
-                    registro.orden = data.Orden;
-                    renglones.Where(x => x.Orden.OrdenNumero == numeroOrden)
-                             .ToList()
-                             .ForEach(renglon => registro.productos.Add(renglon.Producto));
+                    var data = renglones.Where(x => x.Orden.OrdenNumero == numeroOrden).First();                                                                                                 
+                        registro.cliente = data.Cliente;
+                        registro.orden = data.Orden;                        
+                        renglones.Where(x => x.Orden.OrdenNumero == numeroOrden)
+                                 .ToList()
+                                 .ForEach(renglon => registro.productos.Add(renglon.Producto));
 
                     var ordendao = new OrdenDAO();
                     var productodao = new ProductoDAO();
-                    if (ordendao.existeOrden(numeroOrden) )
-                    {
-                        mensajes.Add(String.Format("La orden {0} ya fue procesada anteriormente", numeroOrden));
-                    }
-                    registro.productos.ForEach(producto =>
-                    {
-                        if (!productodao.existeSKU(producto.SKU))
+                        if (ordendao.existeOrden(numeroOrden))
                         {
-                            mensajes.Add(String.Format("EL Producto con SKU {0} no esta registrado en la Sistema", producto.SKU));
+                            mensajes.Add(String.Format("La orden {0} ya fue procesada anteriormente", numeroOrden));
                         }
-                        if (productodao.existeID(producto.Id_producto))
+                        registro.productos.ForEach(producto =>
                         {
-                            mensajes.Add(String.Format("EL Producto con id {0} del orden {1}  ya fue registrado anteriormente", producto.Id_producto, numeroOrden));
+                            if (!productodao.existeSKU(producto.SKU))
+                            {
+                                mensajes.Add(String.Format("EL Producto con SKU {0} no esta registrado en la Sistema", producto.SKU));
+                            }
+                            if (productodao.existeID(producto.Id_producto))
+                            {
+                                mensajes.Add(String.Format("EL Producto con SKU {0} del orden {1}  ya fue registrado anteriormente", producto.SKU,numeroOrden));
+                            }
                         }
-                    }
-                    );
+                        );
 
                     registros.Add(registro);
-
-                }
+                                                             
+                    }
                 #endregion
 
-                #region Interaccion con la capa de Datos                
+
+                #region Interaccion con la capa de Datos
                 if (mensajes.Count > 0)
                 {
-                    Console.WriteLine("Hubo errores en el archivo " + file.Name);
+                    Console.WriteLine("Hubo errores en el archivo "+file.Name);
                     this.EscribirErrores(file.FullName, mensajes);
                     this.quitarExtension(file.FullName);
-                }
-                else
+                }else
                 {
                     Console.WriteLine("Se guardaron los registros del archivo" + file.Name);
                     foreach (Registro registro in registros)
@@ -109,7 +99,7 @@ namespace Contador
                         ordenDao.insertarOrden(registro.orden, registro.cliente.Id_Cliente);
                         productoDao.insertar(registro.productos, registro.orden.OrdenNumero);
                         //this.ListarObjetosGenerados(registro);
-
+                        
                     }
                     File.Delete(file.FullName);
 
